@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 
 @Entity
 
-public class Terceirizado extends Usuario {
+public class Terceirizado {
 
     private String funcao;
 

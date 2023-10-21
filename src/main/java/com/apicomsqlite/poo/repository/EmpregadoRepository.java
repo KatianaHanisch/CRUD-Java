@@ -13,7 +13,7 @@ public interface EmpregadoRepository extends JpaRepository<Empregado, Integer> {
 
     public boolean existsByNome(String nome);
 
-    public List<Empregado> findByNome(String idProduto);
+    public List<Empregado> findByNome(String nome);
 
     @Query("select max(s.id) from Empregado s")
     public Integer findMaxId();
