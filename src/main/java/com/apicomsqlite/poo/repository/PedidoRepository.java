@@ -15,6 +15,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     public List<Pedido> findById(int id);
 
-    @Query("select max(s.id) from Pedidos s")
+    @Query("select max(s.id) from Pedido s")
     public Integer findMaxId();
 }
