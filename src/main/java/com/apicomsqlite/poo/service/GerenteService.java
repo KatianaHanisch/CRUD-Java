@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.apicomsqlite.poo.enity.Usuario;
+import com.apicomsqlite.poo.enity.Gerente;
 import com.apicomsqlite.poo.repository.GerenteRepository;
 import jakarta.transaction.Transactional;
 
@@ -12,61 +12,61 @@ import jakarta.transaction.Transactional;
 public class GerenteService {
 
     @Autowired(required = false)
-    private GerenteRepository clienteRepository;
+    private GerenteRepository gereteRepository;
 
     @Transactional
-    public String createCliente(Usuario cliente) {
+    public String createGerente(Gerente gerente) {
         try {
-            if (!clienteRepository.existsByNome(cliente.getNome())) {
-                cliente.setId(null == clienteRepository.findMaxId() ? 1 : clienteRepository.findMaxId() + 1);
-                clienteRepository.save(cliente);
-                return "cliente cadastrado com sucesso.";
+            if (!gereteRepository.existsByNome(gerente.getNome())) {
+                gerente.setId(null == gereteRepository.findMaxId() ? 1 : gereteRepository.findMaxId() + 1);
+                gereteRepository.save(gerente);
+                return "gerente cadastrado com sucesso.";
             } else {
-                return "cliente já existe no banco.";
+                return "gerente já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public List<Usuario> readCliente() {
-        return clienteRepository.findAll();
+    public List<Gerente> readGerente() {
+        return gereteRepository.findAll();
     }
 
     @Transactional
-    public String updateCliente(Usuario cliente) {
-        if (clienteRepository.existsByNome(cliente.getNome())) {
+    public String updateGerente(Gerente gerente) {
+        if (gereteRepository.existsByNome(gerente.getNome())) {
             try {
-                List<Usuario> clientes = clienteRepository.findByNome(cliente.getNome());
-                clientes.stream().forEach(s -> {
-                    Usuario clienteToBeUpdate = clienteRepository.findById(s.getId()).get();
-                    clienteToBeUpdate.setCpf(cliente.getCpf());
-                    clienteRepository.save(clienteToBeUpdate);
+                List<Gerente> gerentes = gereteRepository.findByNome(gerente.getNome());
+                gerentes.stream().forEach(s -> {
+                    Gerente gerenteToBeUpdate = gereteRepository.findById(s.getId()).get();
+                    gerenteToBeUpdate.setSetor(gerente.getSetor());
+                    gereteRepository.save(gerenteToBeUpdate);
                 });
-                return "cliente atualizado.";
+                return "gerente atualizado.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "cliente não existe no banco.";
+            return "gerente não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteCliente(Usuario cliente) {
-        if (clienteRepository.existsByNome(cliente.getNome())) {
+    public String deleteGerente(Gerente gerente) {
+        if (gereteRepository.existsByNome(gerente.getNome())) {
             try {
-                List<Usuario> clientes = clienteRepository.findByNome(cliente.getNome());
-                clientes.stream().forEach(s -> {
-                    clienteRepository.delete(s);
+                List<Gerente> gerentes = gereteRepository.findByNome(gerente.getNome());
+                gerentes.stream().forEach(s -> {
+                    gereteRepository.delete(s);
                 });
-                return "cliente deletado.";
+                return "gerente deletado.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "cliente n\u00E3o existe no banco.";
+            return "gerente n\u00E3o existe no banco.";
         }
     }
 }

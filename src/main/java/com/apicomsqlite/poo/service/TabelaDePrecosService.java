@@ -12,61 +12,62 @@ import jakarta.transaction.Transactional;
 public class TabelaDePrecosService {
 
     @Autowired(required = false)
-    private TabelaDePrecosRepository clienteRepository;
+    private TabelaDePrecosRepository tabelaDePrecosRepository;
 
     @Transactional
-    public String createCliente(Usuario cliente) {
+    public String createTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
         try {
-            if (!clienteRepository.existsByNome(cliente.getNome())) {
-                cliente.setId(null == clienteRepository.findMaxId() ? 1 : clienteRepository.findMaxId() + 1);
-                clienteRepository.save(cliente);
-                return "cliente cadastrado com sucesso.";
+            if (!tabelaDePrecosRepository.existsByTipo(tabelaDePrecos.getTipo())) {
+                tabelaDePrecos.setId(
+                        null == tabelaDePrecosRepository.findMaxId() ? 1 : tabelaDePrecosRepository.findMaxId() + 1);
+                tabelaDePrecosRepository.save(tabelaDePrecos);
+                return "tipo cadastrado com sucesso.";
             } else {
-                return "cliente já existe no banco.";
+                return "tipo já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public List<Usuario> readCliente() {
-        return clienteRepository.findAll();
+    public List<TabelaDePrecos> readTabelaDePrecos() {
+        return tabelaDePrecosRepository.findAll();
     }
 
     @Transactional
-    public String updateCliente(Usuario cliente) {
-        if (clienteRepository.existsByNome(cliente.getNome())) {
+    public String updateTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
+        if (tabelaDePrecosRepository.existsByTipo(tabelaDePrecos.getTipo())) {
             try {
-                List<Usuario> clientes = clienteRepository.findByNome(cliente.getNome());
-                clientes.stream().forEach(s -> {
-                    Usuario clienteToBeUpdate = clienteRepository.findById(s.getId()).get();
-                    clienteToBeUpdate.setCpf(cliente.getCpf());
-                    clienteRepository.save(clienteToBeUpdate);
+                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findByTipo(tabelaDePrecos.getTipo());
+                tabelaDePrecoss.stream().forEach(s -> {
+                    TabelaDePrecos tabelaDePrecosToBeUpdate = tabelaDePrecosRepository.findById(s.getId()).get();
+                    tabelaDePrecosToBeUpdate.setPreco(tabelaDePrecos.getPreco());
+                    tabelaDePrecosRepository.save(tabelaDePrecosToBeUpdate);
                 });
-                return "cliente atualizado.";
+                return "Tabela de precos atualizado.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "cliente não existe no banco.";
+            return "tipo não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteCliente(Usuario cliente) {
-        if (clienteRepository.existsByNome(cliente.getNome())) {
+    public String deleteTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
+        if (tabelaDePrecosRepository.existsByTipo(tabelaDePrecos.getTipo())) {
             try {
-                List<Usuario> clientes = clienteRepository.findByNome(cliente.getNome());
-                clientes.stream().forEach(s -> {
-                    clienteRepository.delete(s);
+                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findByTipo(tabelaDePrecos.getTipo());
+                tabelaDePrecoss.stream().forEach(s -> {
+                    tabelaDePrecosRepository.delete(s);
                 });
-                return "cliente deletado.";
+                return "tipo deletado.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "cliente n\u00E3o existe no banco.";
+            return "tipo n\u00E3o existe no banco.";
         }
     }
 }

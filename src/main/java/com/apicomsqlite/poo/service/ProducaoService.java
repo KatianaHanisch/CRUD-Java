@@ -15,58 +15,58 @@ public class ProducaoService {
     private ProducaoRepository producaoRepository;
 
     @Transactional
-    public String createProduto(Producao produto) {
+    public String createProducao(Producao producao) {
         try {
-            if (!producaoRepository.existsByNome(produto.getNome())) {
-                produto.setId(null == producaoRepository.findMaxId() ? 1 : producaoRepository.findMaxId() + 1);
-                producaoRepository.save(produto);
-                return "produto cadastrado com sucesso.";
+            if (!producaoRepository.existsByNome(producao.getNome())) {
+                producao.setId(null == producaoRepository.findMaxId() ? 1 : producaoRepository.findMaxId() + 1);
+                producaoRepository.save(producao);
+                return "producao cadastrado com sucesso.";
             } else {
-                return "produto já existe no banco.";
+                return "producao já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public List<Producao> readProduto() {
-        return producaoRepository.findAll()ducao
+    public List<Producao> readProducao() {
+        return producaoRepository.findAll();
+    }
 
     @Transactional
-    public String updateProduto(Producao produto) {
-        if (producaoRepository.existsByNome(produto.getNome())) {
+    public String updateProducao(Producao producao) {
+        if (producaoRepository.existsByNome(producao.getNome())) {
             try {
-                List<Producao> produtos = producaoRepository.findByNome(produto.getNome());
-                produtos.stream().forEach(s -> {
-                    Producao produtoToBeUpdate = producaoRepository.findById(s.getId()).get();
-                    produtoToBeUpdate.setUnidadeDeMedida(produto.getUnidadeDeMedida());
-                    produtoToBeUpdate.setValorProduto(produto.getValorProduto());
-                    producaoRepository.save(produtoToBeUpdate);
+                List<Producao> producaos = producaoRepository.findByNome(producao.getNome());
+                producaos.stream().forEach(s -> {
+                    Producao producaoToBeUpdate = producaoRepository.findById(s.getId()).get();
+                    producaoToBeUpdate.setFuncao(producao.getFuncao());
+                    producaoRepository.save(producaoToBeUpdate);
                 });
-                return "produto atualizado.";
+                return "producao atualizado.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "produto não existe no banco.";
+            return "producao não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteProduto(Producao produto) {
-        if (producaoRepository.existsByNome(produto.getNome())) {
+    public String deleteProducao(Producao producao) {
+        if (producaoRepository.existsByNome(producao.getNome())) {
             try {
-                List<Producao> produtos = producaoRepository.findByNome(produto.getNome());
-                produtos.stream().forEach(s -> {
+                List<Producao> producaos = producaoRepository.findByNome(producao.getNome());
+                producaos.stream().forEach(s -> {
                     producaoRepository.delete(s);
                 });
-                return "produto deletado.";
+                return "producao deletado.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "produto n\u00E3o existe no banco.";
+            return "producao n\u00E3o existe no banco.";
         }
     }
 }

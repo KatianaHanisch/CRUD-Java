@@ -6,14 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.apicomsqlite.poo.enity.Pedidos;
+import com.apicomsqlite.poo.enity.Pedido;
 
 @Repository
-public interface PedidosRepository extends JpaRepository<Pedidos, Integer> {
+public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     public boolean existsById(int id);
 
-    public List<Pedidos> findById(int id);
+    public List<Pedido> findById(int id);
 
     @Query("select max(s.id) from Pedidos s")
     public Integer findMaxId();

@@ -13,7 +13,7 @@ public interface TabelaDePrecosRepository extends JpaRepository<TabelaDePrecos, 
 
     public boolean existsByTipo(String tipo);
 
-    public List<TabelaDePrecos> findById(String tipo);
+    public List<TabelaDePrecos> findByTipo(String tipo);
 
     @Query("select max(s.id) from TabelaDePrecos s")
     public Integer findMaxId();

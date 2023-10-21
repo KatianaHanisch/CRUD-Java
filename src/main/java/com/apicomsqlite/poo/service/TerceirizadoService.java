@@ -4,69 +4,70 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.apicomsqlite.poo.enity.Usuario;
-import com.apicomsqlite.poo.repository.GerenteRepository;
+import com.apicomsqlite.poo.enity.Terceirizado;
+import com.apicomsqlite.poo.repository.TerceirizadoRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class TerceirizadoService {
 
     @Autowired(required = false)
-    private GerenteRepository clienteRepository;
+    private TerceirizadoRepository terceirizadoRepository;
 
     @Transactional
-    public String createCliente(Usuario cliente) {
+    public String createTerceirizado(Terceirizado terceirizado) {
         try {
-            if (!clienteRepository.existsByNome(cliente.getNome())) {
-                cliente.setId(null == clienteRepository.findMaxId() ? 1 : clienteRepository.findMaxId() + 1);
-                clienteRepository.save(cliente);
-                return "cliente cadastrado com sucesso.";
+            if (!terceirizadoRepository.existsByNome(terceirizado.getNome())) {
+                terceirizado
+                        .setId(null == terceirizadoRepository.findMaxId() ? 1 : terceirizadoRepository.findMaxId() + 1);
+                terceirizadoRepository.save(terceirizado);
+                return "terceirizado cadastrado com sucesso.";
             } else {
-                return "cliente já existe no banco.";
+                return "terceirizado já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public List<Usuario> readCliente() {
-        return clienteRepository.findAll();
+    public List<Terceirizado> readTerceirizado() {
+        return terceirizadoRepository.findAll();
     }
 
     @Transactional
-    public String updateCliente(Usuario cliente) {
-        if (clienteRepository.existsByNome(cliente.getNome())) {
+    public String updateTerceirizado(Terceirizado terceirizado) {
+        if (terceirizadoRepository.existsByNome(terceirizado.getNome())) {
             try {
-                List<Usuario> clientes = clienteRepository.findByNome(cliente.getNome());
-                clientes.stream().forEach(s -> {
-                    Usuario clienteToBeUpdate = clienteRepository.findById(s.getId()).get();
-                    clienteToBeUpdate.setCpf(cliente.getCpf());
-                    clienteRepository.save(clienteToBeUpdate);
+                List<Terceirizado> terceirizados = terceirizadoRepository.findByNome(terceirizado.getNome());
+                terceirizados.stream().forEach(s -> {
+                    Terceirizado terceirizadoToBeUpdate = terceirizadoRepository.findById(s.getId()).get();
+                    terceirizadoToBeUpdate.setFuncao(terceirizado.getFuncao());
+                    terceirizadoRepository.save(terceirizadoToBeUpdate);
                 });
-                return "cliente atualizado.";
+                return "terceirizado atualizado.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "cliente não existe no banco.";
+            return "terceirizado não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteCliente(Usuario cliente) {
-        if (clienteRepository.existsByNome(cliente.getNome())) {
+    public String deleteTerceirizado(Terceirizado terceirizado) {
+        if (terceirizadoRepository.existsByNome(terceirizado.getNome())) {
             try {
-                List<Usuario> clientes = clienteRepository.findByNome(cliente.getNome());
-                clientes.stream().forEach(s -> {
-                    clienteRepository.delete(s);
+                List<Terceirizado> terceirizados = terceirizadoRepository.findByNome(terceirizado.getNome());
+                terceirizados.stream().forEach(s -> {
+                    terceirizadoRepository.delete(s);
                 });
-                return "cliente deletado.";
+                return "terceirizado deletado.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "cliente n\u00E3o existe no banco.";
+            return "terceirizado n\u00E3o existe no banco.";
         }
     }
 }

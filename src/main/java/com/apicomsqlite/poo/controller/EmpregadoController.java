@@ -12,28 +12,28 @@ public class EmpregadoController {
     @Autowired
     private EmpregadoService empregadoService;
 
-    @RequestMapping(value = "estoque", method = RequestMethod.GET)
+    @RequestMapping(value = "empregado", method = RequestMethod.GET)
     public String info() {
         return "Aplicacao ativa";
     }
 
-    @RequestMapping(value = "createEstoque", method = RequestMethod.POST)
-    public String createEstoque(@RequestBody Empregado estoque) {
-        return empregadoService.createEstoque(estoque);
+    @RequestMapping(value = "createEmpregado", method = RequestMethod.POST)
+    public String createEmpregado(@RequestBody Empregado empregado) {
+        return empregadoService.createEmpregado(empregado);
     }
 
-    @RequestMapping(value = "readEstoque", method = RequestMethod.GET)
-    public List<Empregado> readEstoque() {
-        return empregadoService.readEstoque();
+    @RequestMapping(value = "readEmpregado", method = RequestMethod.GET)
+    public List<Empregado> readEmpregado() {
+        return empregadoService.readEmpregado();
     }
 
-    @RequestMapping(value = "updateEstoque", method = RequestMethod.PUT)
-    public String updateEstoque(@RequestBody Empregado estoque) {
-        return empregadoService.updateEstoque(estoque);
+    @RequestMapping(value = "updateEmpregado", method = RequestMethod.PUT)
+    public String updateEmpregado(@RequestBody Empregado empregado) {
+        return empregadoService.updateEmpregado(empregado);
     }
 
-    @RequestMapping(value = "deleteEstoque", method = RequestMethod.DELETE)
-    public String deleteEstoque(@RequestBody Empregado estoque) {
-        return empregadoService.deleteEstoque(estoque);
+    @RequestMapping(value = "deleteEmpregado", method = RequestMethod.DELETE)
+    public String deleteEmpregado(@RequestBody Empregado empregado) {
+        return empregadoService.deleteEmpregado(empregado);
     }
 }

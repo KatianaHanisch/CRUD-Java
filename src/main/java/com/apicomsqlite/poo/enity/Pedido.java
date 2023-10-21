@@ -5,7 +5,7 @@ import jakarta.persistence.Id;
 
 @Entity
 
-public class Pedidos {
+public class Pedido {
 
     @Id
     private int id;
@@ -78,7 +78,7 @@ public class Pedidos {
         return producaoResponsavel;
     }
 
-    public void setproducaoResponsavel(String producaoResponsavel) {
+    public void setProducaoResponsavel(String producaoResponsavel) {
         this.producaoResponsavel = producaoResponsavel;
     }
 }

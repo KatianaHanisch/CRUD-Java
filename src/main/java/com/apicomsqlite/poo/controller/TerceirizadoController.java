@@ -12,28 +12,28 @@ public class TerceirizadoController {
     @Autowired
     private TerceirizadoService terceirizadoService;
 
-    @RequestMapping(value = "produto", method = RequestMethod.GET)
+    @RequestMapping(value = "terceirizado", method = RequestMethod.GET)
     public String info() {
         return "Aplicacao ativa";
     }
 
-    @RequestMapping(value = "createProduto", method = RequestMethod.POST)
-    public String createProduto(@RequestBoducao producao) {
-        return terceirizadoService.createProduto(produto);
+    @RequestMapping(value = "createTerceirizado", method = RequestMethod.POST)
+    public String createTerceirizado(@RequestBody Terceirizado terceirizado) {
+        return terceirizadoService.createTerceirizado(terceirizado);
     }
 
-    @RequestMapping(value = "readProduto", method = RequestMethod.GET)
-    public List<Terceirizado> readProdutos() {
-        return terceirizadoService.readProduto();
+    @RequestMapping(value = "readTerceirizado", method = RequestMethod.GET)
+    public List<Terceirizado> readTerceirizados() {
+        return terceirizadoService.readTerceirizado();
     }
 
-    @RequestMapping(value = "updateProduto", method = RequestMethod.PUT)
-    public String updateProduto(@RequestBody Terceirizado produto) {
-        return terceirizadoService.updateProduto(produto);
+    @RequestMapping(value = "updateTerceirizado", method = RequestMethod.PUT)
+    public String updateTerceirizado(@RequestBody Terceirizado terceirizado) {
+        return terceirizadoService.updateTerceirizado(terceirizado);
     }
 
-    @RequestMapping(value = "deleteProduto", method = RequestMethod.DELETE)
-    public String deleteProduto(@RequestBody Terceirizado produto) {
-        return terceirizadoService.deleteProduto(produto);
+    @RequestMapping(value = "deleteTerceirizado", method = RequestMethod.DELETE)
+    public String deleteTerceirizado(@RequestBody Terceirizado terceirizado) {
+        return terceirizadoService.deleteTerceirizado(terceirizado);
     }
 }

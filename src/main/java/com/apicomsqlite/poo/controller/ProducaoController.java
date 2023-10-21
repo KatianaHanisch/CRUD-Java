@@ -17,23 +17,23 @@ public class ProducaoController {
         return "Aplicacao ativa";
     }
 
-    @RequestMapping(value = "createEstoque", method = RequestMethod.POST)
-    public String createEstoque(@RequestBody Producao estoque) {
-        return producaoService.createEstoque(estoque);
+    @RequestMapping(value = "createProducao", method = RequestMethod.POST)
+    public String createProducao(@RequestBody Producao estoque) {
+        return producaoService.createProducao(estoque);
     }
 
-    @RequestMapping(value = "readEstoque", method = RequestMethod.GET)
-    public List<Producao> readEstoque() {
-        return producaoService.readEstoque();
+    @RequestMapping(value = "readProducao", method = RequestMethod.GET)
+    public List<Producao> readProducao() {
+        return producaoService.readProducao();
     }
 
-    @RequestMapping(value = "updateEstoque", method = RequestMethod.PUT)
-    public String updateEstoque(@RequestBody Producao estoque) {
-        return producaoService.updateEstoque(estoque);
+    @RequestMapping(value = "updateProducao", method = RequestMethod.PUT)
+    public String updateProducao(@RequestBody Producao estoque) {
+        return producaoService.updateProducao(estoque);
     }
 
-    @RequestMapping(value = "deleteEstoque", method = RequestMethod.DELETE)
-    public String deleteEstoque(@RequestBody Producao estoque) {
-        return producaoService.deleteEstoque(estoque);
+    @RequestMapping(value = "deleteProducao", method = RequestMethod.DELETE)
+    public String deleteProducao(@RequestBody Producao estoque) {
+        return producaoService.deleteProducao(estoque);
     }
 }

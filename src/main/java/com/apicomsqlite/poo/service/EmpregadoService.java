@@ -12,14 +12,14 @@ import jakarta.transaction.Transactional;
 public class EmpregadoService {
 
     @Autowired(required = false)
-    private EmpregadoRepository estoqueRepository;
+    private EmpregadoRepository empregadoRepository;
 
     @Transactional
-    public String createEstoque(Empregado estoque) {
+    public String createEmpregado(Empregado empregado) {
         try {
-            if (!estoqueRepository.existsByIdProduto(estoque.getIdProduto())) {
-                estoque.setId(null == estoqueRepository.findMaxId() ? 1 : estoqueRepository.findMaxId() + 1);
-                estoqueRepository.save(estoque);
+            if (!empregadoRepository.existsByNome(empregado.getNome())) {
+                empregado.setId(null == empregadoRepository.findMaxId() ? 1 : empregadoRepository.findMaxId() + 1);
+                empregadoRepository.save(empregado);
                 return "quantidade cadastrado com sucesso.";
             } else {
                 return "quantidade já existe no banco.";
@@ -29,44 +29,45 @@ public class EmpregadoService {
         }
     }
 
-    public List<Estoque> readEstoque() {
-        return estoqueRepository.findAll();
+    public List<Empregado> readEmpregado() {
+        return empregadoRepository.findAll();
     }
 
     @Transactional
-    public String updateEstoque(Estoque estoque) {
-        if (estoqueRepository.existsByIdProduto(estoque.getIdProduto())) {
+    public String updateEmpregado(Empregado empregado) {
+        if (empregadoRepository.existsByNome(empregado.getNome())) {
             try {
-                List<Estoque> estoques = estoqueRepository.findByIdProduto(estoque.getIdProduto());
-                estoques.stream().forEach(s -> {
-                    Estoque estoqueToBeUpdate = estoqueRepository.findById(s.getId()).get();
-                    estoqueToBeUpdate.setQuantidadeProduto(estoque.getQuantidadeProduto());
-                    estoqueRepository.save(estoqueToBeUpdate);
+                List<Empregado> empregados = empregadoRepository.findByNome(empregado.getNome());
+                empregados.stream().forEach(s -> {
+                    Empregado empregadoToBeUpdate = empregadoRepository.findById(s.getId()).get();
+                    empregadoToBeUpdate.setSalario(empregado.getSalario());
+                    empregadoToBeUpdate.setFuncao(empregado.getFuncao());
+                    empregadoRepository.save(empregadoToBeUpdate);
                 });
-                return "estoque atualizado.";
+                return "empregado atualizado.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "estoque não existe no banco.";
+            return "empregado não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteEstoque(Estoque estoque) {
-        if (estoqueRepository.existsByIdProduto(estoque.getIdProduto())) {
+    public String deleteEmpregado(Empregado empregado) {
+        if (empregadoRepository.existsByNome(empregado.getNome())) {
             try {
-                List<Estoque> estoques = estoqueRepository.findByIdProduto(estoque.getIdProduto());
-                estoques.stream().forEach(s -> {
-                    estoqueRepository.delete(s);
+                List<Empregado> empregados = empregadoRepository.findByNome(empregado.getNome());
+                empregados.stream().forEach(s -> {
+                    empregadoRepository.delete(s);
                 });
-                return "estoque deletado.";
+                return "empregado deletado.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "estoque n\u00E3o existe no banco.";
+            return "empregado n\u00E3o existe no banco.";
         }
     }
 }

@@ -12,28 +12,28 @@ public class GerenteController {
     @Autowired
     private GerenteService gerenteService;
 
-    @RequestMapping(value = "pessoa", method = RequestMethod.GET)
+    @RequestMapping(value = "gerente", method = RequestMethod.GET)
     public String info() {
         return "Aplicacao ativa";
     }
 
-    @RequestMapping(value = "createCliente", method = RequestMethod.POST)
-    public String createCliente(@RequestBody Gerente pessoa) {
-        return gerenteService.createCliente(pessoa);
+    @RequestMapping(value = "createGerente", method = RequestMethod.POST)
+    public String createGerente(@RequestBody Gerente gerente) {
+        return gerenteService.createGerente(gerente);
     }
 
-    @RequestMapping(value = "readCliente", method = RequestMethod.GET)
-    public List<Gerente> readCliente() {
-        return gerenteService.readCliente();
+    @RequestMapping(value = "readGerente", method = RequestMethod.GET)
+    public List<Gerente> readGerente() {
+        return gerenteService.readGerente();
     }
 
-    @RequestMapping(value = "updateCliente", method = RequestMethod.PUT)
-    public String updateCliente(@RequestBody Gerente pessoa) {
-        return gerenteService.updateCliente(pessoa);
+    @RequestMapping(value = "updateGerente", method = RequestMethod.PUT)
+    public String updateGerente(@RequestBody Gerente gerente) {
+        return gerenteService.updateGerente(gerente);
     }
 
-    @RequestMapping(value = "deleteCliente", method = RequestMethod.DELETE)
-    public String deleteCliente(@RequestBody Gerente pessoa) {
-        return gerenteService.deleteCliente(pessoa);
+    @RequestMapping(value = "deleteGerente", method = RequestMethod.DELETE)
+    public String deleteGerente(@RequestBody Gerente gerente) {
+        return gerenteService.deleteGerente(gerente);
     }
 }
