@@ -1,5 +1,9 @@
 package com.apicomsqlite.poo.enity;
 
+import jakarta.persistence.Entity;
+
+@Entity
+
 public class Empregado extends Usuario {
 
     private String funcao;

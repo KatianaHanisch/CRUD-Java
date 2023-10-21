@@ -1,5 +1,9 @@
 package com.apicomsqlite.poo.enity;
 
+import jakarta.persistence.Entity;
+
+@Entity
+
 public class Gerente extends Usuario {
 
     private String setor;

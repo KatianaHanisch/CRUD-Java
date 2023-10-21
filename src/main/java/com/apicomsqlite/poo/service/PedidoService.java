@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.apicomsqlite.poo.enity.Pedido;
 import com.apicomsqlite.poo.repository.PedidoRepository;
 
-import jakarta.persistence.PersistenceContext;
+// import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -17,7 +17,7 @@ public class PedidoService {
     @Autowired(required = false)
     private PedidoRepository pedidoRepository;
 
-    @PersistenceContext
+    // @PersistenceContext
 
     @Transactional
 
