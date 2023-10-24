@@ -11,9 +11,9 @@ import com.apicomsqlite.poo.enity.Producao;
 @Repository
 public interface ProducaoRepository extends JpaRepository<Producao, Integer> {
 
-    public boolean existsByNome(String nome);
+    public boolean existsById(int id);
 
-    public List<Producao> findByNome(String nome);
+    public List<Producao> findById(int id);
 
     @Query("select max(s.id) from Producao s")
     public Integer findMaxId();

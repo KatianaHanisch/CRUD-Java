@@ -17,13 +17,13 @@ public class TabelaDePrecosService {
     @Transactional
     public String createTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
         try {
-            if (!tabelaDePrecosRepository.existsByTipo(tabelaDePrecos.getTipo())) {
+            if (!tabelaDePrecosRepository.existsById(tabelaDePrecos.getId())) {
                 tabelaDePrecos.setId(
                         null == tabelaDePrecosRepository.findMaxId() ? 1 : tabelaDePrecosRepository.findMaxId() + 1);
                 tabelaDePrecosRepository.save(tabelaDePrecos);
-                return "tipo cadastrado com sucesso.";
+                return "Tabela de precos cadastrado com sucesso.";
             } else {
-                return "tipo já existe no banco.";
+                return "Tabela de precos já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
@@ -36,12 +36,13 @@ public class TabelaDePrecosService {
 
     @Transactional
     public String updateTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
-        if (tabelaDePrecosRepository.existsByTipo(tabelaDePrecos.getTipo())) {
+        if (tabelaDePrecosRepository.existsById(tabelaDePrecos.getId())) {
             try {
-                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findByTipo(tabelaDePrecos.getTipo());
+                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findById(tabelaDePrecos.getId());
                 tabelaDePrecoss.stream().forEach(s -> {
-                    TabelaDePrecos tabelaDePrecosToBeUpdate = tabelaDePrecosRepository.findById(s.getId()).get();
+                    TabelaDePrecos tabelaDePrecosToBeUpdate = tabelaDePrecosRepository.findById(s.getId()).get(0);
                     tabelaDePrecosToBeUpdate.setPreco(tabelaDePrecos.getPreco());
+                    tabelaDePrecosToBeUpdate.setTipo(tabelaDePrecos.getTipo());
                     tabelaDePrecosRepository.save(tabelaDePrecosToBeUpdate);
                 });
                 return "Tabela de precos atualizado.";
@@ -49,25 +50,25 @@ public class TabelaDePrecosService {
                 throw e;
             }
         } else {
-            return "tipo não existe no banco.";
+            return "Tabela de precos não existe no banco.";
         }
     }
 
     @Transactional
     public String deleteTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
-        if (tabelaDePrecosRepository.existsByTipo(tabelaDePrecos.getTipo())) {
+        if (tabelaDePrecosRepository.existsById(tabelaDePrecos.getId())) {
             try {
-                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findByTipo(tabelaDePrecos.getTipo());
+                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findById(tabelaDePrecos.getId());
                 tabelaDePrecoss.stream().forEach(s -> {
                     tabelaDePrecosRepository.delete(s);
                 });
-                return "tipo deletado.";
+                return "Tabela de precos deletado.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "tipo n\u00E3o existe no banco.";
+            return "Tabela de precos n\u00E3o existe no banco.";
         }
     }
 }

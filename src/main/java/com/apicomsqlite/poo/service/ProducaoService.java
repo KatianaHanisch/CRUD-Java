@@ -17,7 +17,7 @@ public class ProducaoService {
     @Transactional
     public String createProducao(Producao producao) {
         try {
-            if (!producaoRepository.existsByNome(producao.getNome())) {
+            if (!producaoRepository.existsById(producao.getId())) {
                 producao.setId(null == producaoRepository.findMaxId() ? 1 : producaoRepository.findMaxId() + 1);
                 producaoRepository.save(producao);
                 return "producao cadastrado com sucesso.";
@@ -35,12 +35,13 @@ public class ProducaoService {
 
     @Transactional
     public String updateProducao(Producao producao) {
-        if (producaoRepository.existsByNome(producao.getNome())) {
+        if (producaoRepository.existsById(producao.getId())) {
             try {
-                List<Producao> producaos = producaoRepository.findByNome(producao.getNome());
+                List<Producao> producaos = producaoRepository.findById(producao.getId());
                 producaos.stream().forEach(s -> {
-                    Producao producaoToBeUpdate = producaoRepository.findById(s.getId()).get();
+                    Producao producaoToBeUpdate = producaoRepository.findById(s.getId()).get(0);
                     producaoToBeUpdate.setFuncao(producao.getFuncao());
+                    producaoToBeUpdate.setNome(producao.getNome());
                     producaoRepository.save(producaoToBeUpdate);
                 });
                 return "producao atualizado.";
@@ -54,9 +55,9 @@ public class ProducaoService {
 
     @Transactional
     public String deleteProducao(Producao producao) {
-        if (producaoRepository.existsByNome(producao.getNome())) {
+        if (producaoRepository.existsById(producao.getId())) {
             try {
-                List<Producao> producaos = producaoRepository.findByNome(producao.getNome());
+                List<Producao> producaos = producaoRepository.findById(producao.getId());
                 producaos.stream().forEach(s -> {
                     producaoRepository.delete(s);
                 });

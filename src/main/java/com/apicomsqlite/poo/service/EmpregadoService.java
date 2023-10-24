@@ -17,12 +17,12 @@ public class EmpregadoService {
     @Transactional
     public String createEmpregado(Empregado empregado) {
         try {
-            if (!empregadoRepository.existsByNome(empregado.getNome())) {
+            if (!empregadoRepository.existsById(empregado.getId())) {
                 empregado.setId(null == empregadoRepository.findMaxId() ? 1 : empregadoRepository.findMaxId() + 1);
                 empregadoRepository.save(empregado);
-                return "quantidade cadastrado com sucesso.";
+                return "Empregado cadastrado com sucesso.";
             } else {
-                return "quantidade já existe no banco.";
+                return "Empregado já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
@@ -35,11 +35,12 @@ public class EmpregadoService {
 
     @Transactional
     public String updateEmpregado(Empregado empregado) {
-        if (empregadoRepository.existsByNome(empregado.getNome())) {
+        if (empregadoRepository.existsById(empregado.getId())) {
             try {
-                List<Empregado> empregados = empregadoRepository.findByNome(empregado.getNome());
+                List<Empregado> empregados = empregadoRepository.findById(empregado.getId());
                 empregados.stream().forEach(s -> {
-                    Empregado empregadoToBeUpdate = empregadoRepository.findById(s.getId()).get();
+                    Empregado empregadoToBeUpdate = empregadoRepository.findById(s.getId()).get(0);
+                    empregadoToBeUpdate.setNome(empregado.getNome());
                     empregadoToBeUpdate.setSalario(empregado.getSalario());
                     empregadoToBeUpdate.setFuncao(empregado.getFuncao());
                     empregadoRepository.save(empregadoToBeUpdate);
@@ -55,9 +56,9 @@ public class EmpregadoService {
 
     @Transactional
     public String deleteEmpregado(Empregado empregado) {
-        if (empregadoRepository.existsByNome(empregado.getNome())) {
+        if (empregadoRepository.existsById(empregado.getId())) {
             try {
-                List<Empregado> empregados = empregadoRepository.findByNome(empregado.getNome());
+                List<Empregado> empregados = empregadoRepository.findById(empregado.getId());
                 empregados.stream().forEach(s -> {
                     empregadoRepository.delete(s);
                 });

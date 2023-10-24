@@ -17,7 +17,7 @@ public class TerceirizadoService {
     @Transactional
     public String createTerceirizado(Terceirizado terceirizado) {
         try {
-            if (!terceirizadoRepository.existsByNome(terceirizado.getNome())) {
+            if (!terceirizadoRepository.existsById(terceirizado.getId())) {
                 terceirizado
                         .setId(null == terceirizadoRepository.findMaxId() ? 1 : terceirizadoRepository.findMaxId() + 1);
                 terceirizadoRepository.save(terceirizado);
@@ -36,12 +36,13 @@ public class TerceirizadoService {
 
     @Transactional
     public String updateTerceirizado(Terceirizado terceirizado) {
-        if (terceirizadoRepository.existsByNome(terceirizado.getNome())) {
+        if (terceirizadoRepository.existsById(terceirizado.getId())) {
             try {
-                List<Terceirizado> terceirizados = terceirizadoRepository.findByNome(terceirizado.getNome());
+                List<Terceirizado> terceirizados = terceirizadoRepository.findById(terceirizado.getId());
                 terceirizados.stream().forEach(s -> {
-                    Terceirizado terceirizadoToBeUpdate = terceirizadoRepository.findById(s.getId()).get();
+                    Terceirizado terceirizadoToBeUpdate = terceirizadoRepository.findById(s.getId()).get(0);
                     terceirizadoToBeUpdate.setFuncao(terceirizado.getFuncao());
+                    terceirizadoToBeUpdate.setNome(terceirizado.getNome());
                     terceirizadoRepository.save(terceirizadoToBeUpdate);
                 });
                 return "terceirizado atualizado.";
@@ -55,9 +56,9 @@ public class TerceirizadoService {
 
     @Transactional
     public String deleteTerceirizado(Terceirizado terceirizado) {
-        if (terceirizadoRepository.existsByNome(terceirizado.getNome())) {
+        if (terceirizadoRepository.existsById(terceirizado.getId())) {
             try {
-                List<Terceirizado> terceirizados = terceirizadoRepository.findByNome(terceirizado.getNome());
+                List<Terceirizado> terceirizados = terceirizadoRepository.findById(terceirizado.getId());
                 terceirizados.stream().forEach(s -> {
                     terceirizadoRepository.delete(s);
                 });

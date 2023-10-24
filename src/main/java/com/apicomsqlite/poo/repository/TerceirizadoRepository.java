@@ -11,9 +11,9 @@ import com.apicomsqlite.poo.enity.Terceirizado;
 @Repository
 public interface TerceirizadoRepository extends JpaRepository<Terceirizado, Integer> {
 
-    public boolean existsByNome(String nome);
+    public boolean existsById(int id);
 
-    public List<Terceirizado> findByNome(String nome);
+    public List<Terceirizado> findById(int id);
 
     @Query("select max(s.id) from Terceirizado s")
     public Integer findMaxId();

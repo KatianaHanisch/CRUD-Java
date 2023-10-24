@@ -11,9 +11,9 @@ import com.apicomsqlite.poo.enity.TabelaDePrecos;
 @Repository
 public interface TabelaDePrecosRepository extends JpaRepository<TabelaDePrecos, Integer> {
 
-    public boolean existsByTipo(String tipo);
+    public boolean existsById(int id);
 
-    public List<TabelaDePrecos> findByTipo(String tipo);
+    public List<TabelaDePrecos> findById(int id);
 
     @Query("select max(s.id) from TabelaDePrecos s")
     public Integer findMaxId();

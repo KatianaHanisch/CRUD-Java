@@ -17,7 +17,7 @@ public class GerenteService {
     @Transactional
     public String createGerente(Gerente gerente) {
         try {
-            if (!gereteRepository.existsByNome(gerente.getNome())) {
+            if (!gereteRepository.existsById(gerente.getId())) {
                 gerente.setId(null == gereteRepository.findMaxId() ? 1 : gereteRepository.findMaxId() + 1);
                 gereteRepository.save(gerente);
                 return "gerente cadastrado com sucesso.";
@@ -35,11 +35,12 @@ public class GerenteService {
 
     @Transactional
     public String updateGerente(Gerente gerente) {
-        if (gereteRepository.existsByNome(gerente.getNome())) {
+        if (gereteRepository.existsById(gerente.getId())) {
             try {
-                List<Gerente> gerentes = gereteRepository.findByNome(gerente.getNome());
+                List<Gerente> gerentes = gereteRepository.findById(gerente.getId());
                 gerentes.stream().forEach(s -> {
-                    Gerente gerenteToBeUpdate = gereteRepository.findById(s.getId()).get();
+                    Gerente gerenteToBeUpdate = gereteRepository.findById(s.getId()).get(0);
+                    gerenteToBeUpdate.setNome(gerente.getNome());
                     gerenteToBeUpdate.setSetor(gerente.getSetor());
                     gereteRepository.save(gerenteToBeUpdate);
                 });
@@ -54,9 +55,9 @@ public class GerenteService {
 
     @Transactional
     public String deleteGerente(Gerente gerente) {
-        if (gereteRepository.existsByNome(gerente.getNome())) {
+        if (gereteRepository.existsById(gerente.getId())) {
             try {
-                List<Gerente> gerentes = gereteRepository.findByNome(gerente.getNome());
+                List<Gerente> gerentes = gereteRepository.findById(gerente.getId());
                 gerentes.stream().forEach(s -> {
                     gereteRepository.delete(s);
                 });
