@@ -7,6 +7,8 @@ import com.apicomsqlite.poo.enity.Empregado;
 import com.apicomsqlite.poo.service.EmpregadoService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class EmpregadoController {
 
     @Autowired

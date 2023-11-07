@@ -7,6 +7,8 @@ import com.apicomsqlite.poo.enity.Terceirizado;
 import com.apicomsqlite.poo.service.TerceirizadoService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class TerceirizadoController {
 
     @Autowired

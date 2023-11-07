@@ -8,6 +8,8 @@ import com.apicomsqlite.poo.enity.TabelaDePrecos;
 import com.apicomsqlite.poo.service.TabelaDePrecosService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class TabelaDePrecosController {
 
     @Autowired

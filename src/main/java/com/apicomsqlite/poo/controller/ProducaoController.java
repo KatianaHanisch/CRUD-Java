@@ -7,6 +7,8 @@ import com.apicomsqlite.poo.enity.Producao;
 import com.apicomsqlite.poo.service.ProducaoService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class ProducaoController {
 
     @Autowired

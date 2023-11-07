@@ -7,6 +7,8 @@ import com.apicomsqlite.poo.enity.Pedido;
 import com.apicomsqlite.poo.service.PedidoService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class PedidoController {
 
     @Autowired

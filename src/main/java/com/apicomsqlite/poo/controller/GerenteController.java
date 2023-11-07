@@ -7,6 +7,8 @@ import com.apicomsqlite.poo.enity.Gerente;
 import com.apicomsqlite.poo.service.GerenteService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class GerenteController {
 
     @Autowired
