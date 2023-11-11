@@ -1,6 +1,7 @@
 package com.apicomsqlite.poo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,38 +38,36 @@ public class EmpregadoService {
     public String updateEmpregado(Empregado empregado) {
         if (empregadoRepository.existsById(empregado.getId())) {
             try {
-                List<Empregado> empregados = empregadoRepository.findById(empregado.getId());
-                empregados.stream().forEach(s -> {
-                    Empregado empregadoToBeUpdate = empregadoRepository.findById(s.getId()).get(0);
+                Optional<Empregado> tabelaPrecos = empregadoRepository.findById(empregado.getId());
+                if (tabelaPrecos.isPresent()) {
+                    Empregado empregadoToBeUpdate = tabelaPrecos.get();
                     empregadoToBeUpdate.setNome(empregado.getNome());
                     empregadoToBeUpdate.setSalario(empregado.getSalario());
                     empregadoToBeUpdate.setFuncao(empregado.getFuncao());
                     empregadoRepository.save(empregadoToBeUpdate);
-                });
-                return "empregado atualizado.";
+                    return "Empregado de preços atualizado.";
+                } else {
+                    return "Empregado não encontrado no banco.";
+                }
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "empregado não existe no banco.";
+            return "Empregado não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteEmpregado(Empregado empregado) {
-        if (empregadoRepository.existsById(empregado.getId())) {
-            try {
-                List<Empregado> empregados = empregadoRepository.findById(empregado.getId());
-                empregados.stream().forEach(s -> {
-                    empregadoRepository.delete(s);
-                });
-                return "empregado deletado.";
-            } catch (Exception e) {
-                throw e;
+    public String deleteEmpregado(int id) {
+        try {
+            if (empregadoRepository.existsById(id)) {
+                empregadoRepository.deleteById(id);
+                return "Empregado deletado com sucesso.";
+            } else {
+                return "Empregado não existe no banco de dados.";
             }
-
-        } else {
-            return "empregado n\u00E3o existe no banco.";
+        } catch (Exception e) {
+            throw e;
         }
     }
 }

@@ -29,13 +29,14 @@ public class PedidoController {
         return pedidosService.readPedido();
     }
 
-    @RequestMapping(value = "updatePedido", method = RequestMethod.PUT)
-    public String updatePedido(@RequestBody Pedido pedido) {
+    @RequestMapping(value = "updatePedido/{id}", method = RequestMethod.PUT)
+    public String updatePedido(@PathVariable int id, @RequestBody Pedido pedido) {
+        pedido.setId(id);
         return pedidosService.updatePedido(pedido);
     }
 
-    @RequestMapping(value = "deletePedido", method = RequestMethod.DELETE)
-    public String deletePedido(@RequestBody Pedido pedido) {
-        return pedidosService.deletePedido(pedido);
+    @RequestMapping(value = "deletePedido/{id}", method = RequestMethod.DELETE)
+    public String deletePedido(@PathVariable int id) {
+        return pedidosService.deletePedido(id);
     }
 }

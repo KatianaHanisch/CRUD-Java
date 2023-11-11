@@ -14,14 +14,14 @@ public class ProducaoController {
     @Autowired
     private ProducaoService producaoService;
 
-    @RequestMapping(value = "estoque", method = RequestMethod.GET)
+    @RequestMapping(value = "producao", method = RequestMethod.GET)
     public String info() {
         return "Aplicacao ativa";
     }
 
     @RequestMapping(value = "createProducao", method = RequestMethod.POST)
-    public String createProducao(@RequestBody Producao estoque) {
-        return producaoService.createProducao(estoque);
+    public String createProducao(@RequestBody Producao producao) {
+        return producaoService.createProducao(producao);
     }
 
     @RequestMapping(value = "readProducao", method = RequestMethod.GET)
@@ -29,13 +29,14 @@ public class ProducaoController {
         return producaoService.readProducao();
     }
 
-    @RequestMapping(value = "updateProducao", method = RequestMethod.PUT)
-    public String updateProducao(@RequestBody Producao estoque) {
-        return producaoService.updateProducao(estoque);
+    @RequestMapping(value = "updateProducao/{id}", method = RequestMethod.PUT)
+    public String updateProducao(@PathVariable int id, @RequestBody Producao producao) {
+        producao.setId(id);
+        return producaoService.updateProducao(producao);
     }
 
-    @RequestMapping(value = "deleteProducao", method = RequestMethod.DELETE)
-    public String deleteProducao(@RequestBody Producao estoque) {
-        return producaoService.deleteProducao(estoque);
+    @RequestMapping(value = "deleteProducao/{id}", method = RequestMethod.DELETE)
+    public String deleteProducao(@PathVariable int id) {
+        return producaoService.deleteProducao(id);
     }
 }

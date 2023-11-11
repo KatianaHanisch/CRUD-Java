@@ -29,13 +29,14 @@ public class EmpregadoController {
         return empregadoService.readEmpregado();
     }
 
-    @RequestMapping(value = "updateEmpregado", method = RequestMethod.PUT)
-    public String updateEmpregado(@RequestBody Empregado empregado) {
+    @RequestMapping(value = "updateEmpregado/{id}", method = RequestMethod.PUT)
+    public String updateEmpregado(@PathVariable int id, @RequestBody Empregado empregado) {
+        empregado.setId(id);
         return empregadoService.updateEmpregado(empregado);
     }
 
-    @RequestMapping(value = "deleteEmpregado", method = RequestMethod.DELETE)
-    public String deleteEmpregado(@RequestBody Empregado empregado) {
-        return empregadoService.deleteEmpregado(empregado);
+    @RequestMapping(value = "deleteEmpregado/{id}", method = RequestMethod.DELETE)
+    public String deleteEmpregado(@PathVariable int id) {
+        return empregadoService.deleteEmpregado(id);
     }
 }

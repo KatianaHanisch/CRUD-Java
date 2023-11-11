@@ -1,6 +1,7 @@
 package com.apicomsqlite.poo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,37 +38,35 @@ public class ProducaoService {
     public String updateProducao(Producao producao) {
         if (producaoRepository.existsById(producao.getId())) {
             try {
-                List<Producao> producaos = producaoRepository.findById(producao.getId());
-                producaos.stream().forEach(s -> {
-                    Producao producaoToBeUpdate = producaoRepository.findById(s.getId()).get(0);
+                Optional<Producao> listaProducao = producaoRepository.findById(producao.getId());
+                if (listaProducao.isPresent()) {
+                    Producao producaoToBeUpdate = listaProducao.get();
                     producaoToBeUpdate.setFuncao(producao.getFuncao());
                     producaoToBeUpdate.setNome(producao.getNome());
                     producaoRepository.save(producaoToBeUpdate);
-                });
-                return "producao atualizado.";
+                    return "Producao atualizado.";
+                } else {
+                    return "Producao não encontrado no banco.";
+                }
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "producao não existe no banco.";
+            return "Producao não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteProducao(Producao producao) {
-        if (producaoRepository.existsById(producao.getId())) {
-            try {
-                List<Producao> producaos = producaoRepository.findById(producao.getId());
-                producaos.stream().forEach(s -> {
-                    producaoRepository.delete(s);
-                });
-                return "producao deletado.";
-            } catch (Exception e) {
-                throw e;
+    public String deleteProducao(int id) {
+        try {
+            if (producaoRepository.existsById(id)) {
+                producaoRepository.deleteById(id);
+                return "Producao deletado com sucesso.";
+            } else {
+                return "Producao não existe no banco de dados.";
             }
-
-        } else {
-            return "producao n\u00E3o existe no banco.";
+        } catch (Exception e) {
+            throw e;
         }
     }
 }

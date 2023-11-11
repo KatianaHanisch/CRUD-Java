@@ -1,13 +1,13 @@
 package com.apicomsqlite.poo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.apicomsqlite.poo.enity.TabelaDePrecos;
 import com.apicomsqlite.poo.repository.TabelaDePrecosRepository;
 import jakarta.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 public class TabelaDePrecosService {
