@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.apicomsqlite.poo.enity.TabelaDePrecos;
 import com.apicomsqlite.poo.repository.TabelaDePrecosRepository;
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class TabelaDePrecosService {
@@ -38,37 +39,35 @@ public class TabelaDePrecosService {
     public String updateTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
         if (tabelaDePrecosRepository.existsById(tabelaDePrecos.getId())) {
             try {
-                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findById(tabelaDePrecos.getId());
-                tabelaDePrecoss.stream().forEach(s -> {
-                    TabelaDePrecos tabelaDePrecosToBeUpdate = tabelaDePrecosRepository.findById(s.getId()).get(0);
+                Optional<TabelaDePrecos> tabelaPrecos = tabelaDePrecosRepository.findById(tabelaDePrecos.getId());
+                if (tabelaPrecos.isPresent()) {
+                    TabelaDePrecos tabelaDePrecosToBeUpdate = tabelaPrecos.get();
                     tabelaDePrecosToBeUpdate.setPreco(tabelaDePrecos.getPreco());
                     tabelaDePrecosToBeUpdate.setTipo(tabelaDePrecos.getTipo());
                     tabelaDePrecosRepository.save(tabelaDePrecosToBeUpdate);
-                });
-                return "Tabela de precos atualizado.";
+                    return "Tabela de preços atualizado.";
+                } else {
+                    return "Produto não encontrado no banco.";
+                }
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Tabela de precos não existe no banco.";
+            return "Produto não existe no banco.";
         }
     }
 
     @Transactional
-    public String deleteTabelaDePrecos(TabelaDePrecos tabelaDePrecos) {
-        if (tabelaDePrecosRepository.existsById(tabelaDePrecos.getId())) {
-            try {
-                List<TabelaDePrecos> tabelaDePrecoss = tabelaDePrecosRepository.findById(tabelaDePrecos.getId());
-                tabelaDePrecoss.stream().forEach(s -> {
-                    tabelaDePrecosRepository.delete(s);
-                });
-                return "Tabela de precos deletado.";
-            } catch (Exception e) {
-                throw e;
+    public String deleteTabelaDePrecos(int id) {
+        try {
+            if (tabelaDePrecosRepository.existsById(id)) {
+                tabelaDePrecosRepository.deleteById(id);
+                return "Produto deletado com sucesso.";
+            } else {
+                return "Produto não existe no banco de dados.";
             }
-
-        } else {
-            return "Tabela de precos n\u00E3o existe no banco.";
+        } catch (Exception e) {
+            throw e;
         }
     }
 }

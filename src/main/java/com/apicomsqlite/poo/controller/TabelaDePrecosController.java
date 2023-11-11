@@ -30,13 +30,14 @@ public class TabelaDePrecosController {
         return tabelaDePrecosService.readTabelaDePrecos();
     }
 
-    @RequestMapping(value = "updateTabelaDePrecos", method = RequestMethod.PUT)
-    public String updateTabelaDePrecos(@RequestBody TabelaDePrecos tabelaDePrecos) {
+    @RequestMapping(value = "updateTabelaDePrecos/{id}", method = RequestMethod.PUT)
+    public String updateTabelaDePrecos(@PathVariable int id, @RequestBody TabelaDePrecos tabelaDePrecos) {
+        tabelaDePrecos.setId(id);
         return tabelaDePrecosService.updateTabelaDePrecos(tabelaDePrecos);
     }
 
-    @RequestMapping(value = "deleteTabelaDePrecos", method = RequestMethod.DELETE)
-    public String deleteTabelaDePrecos(@RequestBody TabelaDePrecos tabelaDePrecos) {
-        return tabelaDePrecosService.deleteTabelaDePrecos(tabelaDePrecos);
+    @RequestMapping(value = "deleteTabelaDePrecos/{id}", method = RequestMethod.DELETE)
+    public String deleteTabelaDePrecos(@PathVariable int id) {
+        return tabelaDePrecosService.deleteTabelaDePrecos(id);
     }
 }
