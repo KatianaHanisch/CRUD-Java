@@ -3,6 +3,8 @@ package com.apicomsqlite.poo.controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.apicomsqlite.poo.enity.Empregado;
 import com.apicomsqlite.poo.enity.Gerente;
 import com.apicomsqlite.poo.service.GerenteService;
 
@@ -29,13 +31,14 @@ public class GerenteController {
         return gerenteService.readGerente();
     }
 
-    @RequestMapping(value = "updateGerente", method = RequestMethod.PUT)
-    public String updateGerente(@RequestBody Gerente gerente) {
+    @RequestMapping(value = "updateGerente/{id}", method = RequestMethod.PUT)
+    public String updateGerente(@PathVariable int id, @RequestBody Gerente gerente) {
+        gerente.setId(id);
         return gerenteService.updateGerente(gerente);
     }
 
-    @RequestMapping(value = "deleteGerente", method = RequestMethod.DELETE)
-    public String deleteGerente(@RequestBody Gerente gerente) {
-        return gerenteService.deleteGerente(gerente);
+    @RequestMapping(value = "deleteGerente/{id}", method = RequestMethod.DELETE)
+    public String deleteGerente(@PathVariable int id) {
+        return gerenteService.deleteGerente(id);
     }
 }

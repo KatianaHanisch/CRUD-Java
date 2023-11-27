@@ -11,6 +11,8 @@ public class Gerente {
     private int id;
     private String setor;
     private String nome;
+    private double salario;
+
     private String senha;
     private String email;
 
@@ -52,6 +54,14 @@ public class Gerente {
 
     public void setSetor(String setor) {
         this.setor = setor;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
     }
 
 }

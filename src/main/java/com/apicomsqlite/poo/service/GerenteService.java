@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.apicomsqlite.poo.enity.Empregado;
 import com.apicomsqlite.poo.enity.Gerente;
 import com.apicomsqlite.poo.repository.GerenteRepository;
 import jakarta.transaction.Transactional;
@@ -46,18 +48,28 @@ public class GerenteService {
         if (gereteRepository.existsById(gerente.getId())) {
             try {
 
-                if (gereteRepository.existsByEmailAndIdNot(gerente.getEmail(), gerente.getId())) {
-                    return "Já existe um gerente com o mesmo e-mail.";
+                Optional<Gerente> gerenteOptional = gereteRepository.findById(gerente.getId());
+
+                if (gerenteOptional.isPresent()) {
+                    Gerente gerenteToBeUpdate = gerenteOptional.get();
+
+                    if (!gereteRepository.existsByEmailAndIdNot(gerente.getEmail(), gerente.getId())) {
+
+                        gerenteToBeUpdate.setNome(gerente.getNome());
+                        gerenteToBeUpdate.setSalario(gerente.getSalario());
+                        gerenteToBeUpdate.setSetor(gerente.getSetor());
+                        gerenteToBeUpdate.setSenha(gerente.getSenha());
+                        gerenteToBeUpdate.setEmail(gerente.getEmail());
+
+                        gereteRepository.save(gerenteToBeUpdate);
+
+                        return "Gerente atualizado com sucesso.";
+                    } else {
+                        return "Já existe um gerente com o email fornecido.";
+                    }
+                } else {
+                    return "Gerente não encontrado no banco.";
                 }
-                Gerente gerenteToBeUpdate = gereteRepository.getById(gerente.getId());
-                gerenteToBeUpdate.setNome(gerente.getNome());
-                gerenteToBeUpdate.setSetor(gerente.getSetor());
-                gerenteToBeUpdate.setSenha(gerente.getSenha());
-                gerenteToBeUpdate.setEmail(gerente.getEmail());
-
-                gereteRepository.save(gerenteToBeUpdate);
-
-                return "Gerente atualizado.";
             } catch (Exception e) {
                 throw e;
             }
@@ -67,20 +79,16 @@ public class GerenteService {
     }
 
     @Transactional
-    public String deleteGerente(Gerente gerente) {
-        if (gereteRepository.existsById(gerente.getId())) {
-            try {
-                List<Gerente> gerentes = gereteRepository.findById(gerente.getId());
-                gerentes.stream().forEach(s -> {
-                    gereteRepository.delete(s);
-                });
-                return "gerente deletado.";
-            } catch (Exception e) {
-                throw e;
+    public String deleteGerente(int id) {
+        try {
+            if (gereteRepository.existsById(id)) {
+                gereteRepository.deleteById(id);
+                return "Gerente deletado com sucesso.";
+            } else {
+                return "Gerente não existe no banco de dados.";
             }
-
-        } else {
-            return "gerente n\u00E3o existe no banco.";
+        } catch (Exception e) {
+            throw e;
         }
     }
 }
