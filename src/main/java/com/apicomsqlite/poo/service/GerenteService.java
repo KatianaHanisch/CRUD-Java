@@ -1,6 +1,7 @@
 package com.apicomsqlite.poo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,18 @@ public class GerenteService {
     @Transactional
     public String createGerente(Gerente gerente) {
         try {
-            if (!gereteRepository.existsById(gerente.getId())) {
-                gerente.setId(null == gereteRepository.findMaxId() ? 1 : gereteRepository.findMaxId() + 1);
-                gereteRepository.save(gerente);
-                return "gerente cadastrado com sucesso.";
+            String email = gerente.getEmail();
+
+            if (gereteRepository.findByEmail(email).isEmpty()) {
+                if (!gereteRepository.existsById(gerente.getId())) {
+                    gerente.setId(null == gereteRepository.findMaxId() ? 1 : gereteRepository.findMaxId() + 1);
+                    gereteRepository.save(gerente);
+                    return "Gerente cadastrado com sucesso.";
+                } else {
+                    return "Gerente já existe no banco.";
+                }
             } else {
-                return "gerente já existe no banco.";
+                return "Já existe um gerente com o mesmo e-mail.";
             }
         } catch (Exception e) {
             throw e;
@@ -35,21 +42,27 @@ public class GerenteService {
 
     @Transactional
     public String updateGerente(Gerente gerente) {
+
         if (gereteRepository.existsById(gerente.getId())) {
             try {
-                List<Gerente> gerentes = gereteRepository.findById(gerente.getId());
-                gerentes.stream().forEach(s -> {
-                    Gerente gerenteToBeUpdate = gereteRepository.findById(s.getId()).get(0);
-                    gerenteToBeUpdate.setNome(gerente.getNome());
-                    gerenteToBeUpdate.setSetor(gerente.getSetor());
-                    gereteRepository.save(gerenteToBeUpdate);
-                });
-                return "gerente atualizado.";
+
+                if (gereteRepository.existsByEmailAndIdNot(gerente.getEmail(), gerente.getId())) {
+                    return "Já existe um gerente com o mesmo e-mail.";
+                }
+                Gerente gerenteToBeUpdate = gereteRepository.getById(gerente.getId());
+                gerenteToBeUpdate.setNome(gerente.getNome());
+                gerenteToBeUpdate.setSetor(gerente.getSetor());
+                gerenteToBeUpdate.setSenha(gerente.getSenha());
+                gerenteToBeUpdate.setEmail(gerente.getEmail());
+
+                gereteRepository.save(gerenteToBeUpdate);
+
+                return "Gerente atualizado.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "gerente não existe no banco.";
+            return "Gerente não existe no banco.";
         }
     }
 

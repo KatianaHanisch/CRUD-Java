@@ -18,12 +18,19 @@ public class EmpregadoService {
     @Transactional
     public String createEmpregado(Empregado empregado) {
         try {
-            if (!empregadoRepository.existsById(empregado.getId())) {
-                empregado.setId(null == empregadoRepository.findMaxId() ? 1 : empregadoRepository.findMaxId() + 1);
-                empregadoRepository.save(empregado);
-                return "Empregado cadastrado com sucesso.";
+            String email = empregado.getEmail();
+
+            if (empregadoRepository.findByEmail(email).isEmpty()) {
+                if (!empregadoRepository.existsById(empregado.getId())) {
+                    empregado.setId(null == empregadoRepository.findMaxId() ? 1 : empregadoRepository.findMaxId() + 1);
+                    empregadoRepository.save(empregado);
+                    return "Empregado cadastrado com sucesso.";
+                } else {
+                    return "Empregado já existe no banco.";
+                }
+
             } else {
-                return "Empregado já existe no banco.";
+                return "Já existe um empregado com o mesmo e-mail.";
             }
         } catch (Exception e) {
             throw e;
@@ -36,16 +43,29 @@ public class EmpregadoService {
 
     @Transactional
     public String updateEmpregado(Empregado empregado) {
+
         if (empregadoRepository.existsById(empregado.getId())) {
             try {
-                Optional<Empregado> tabelaPrecos = empregadoRepository.findById(empregado.getId());
-                if (tabelaPrecos.isPresent()) {
-                    Empregado empregadoToBeUpdate = tabelaPrecos.get();
-                    empregadoToBeUpdate.setNome(empregado.getNome());
-                    empregadoToBeUpdate.setSalario(empregado.getSalario());
-                    empregadoToBeUpdate.setFuncao(empregado.getFuncao());
-                    empregadoRepository.save(empregadoToBeUpdate);
-                    return "Empregado de preços atualizado.";
+
+                Optional<Empregado> empregadoOptional = empregadoRepository.findById(empregado.getId());
+
+                if (empregadoOptional.isPresent()) {
+                    Empregado empregadoToBeUpdate = empregadoOptional.get();
+
+                    if (!empregadoRepository.existsByEmailAndIdNot(empregado.getEmail(), empregado.getId())) {
+
+                        empregadoToBeUpdate.setNome(empregado.getNome());
+                        empregadoToBeUpdate.setSalario(empregado.getSalario());
+                        empregadoToBeUpdate.setFuncao(empregado.getFuncao());
+                        empregadoToBeUpdate.setSenha(empregado.getSenha());
+                        empregadoToBeUpdate.setEmail(empregado.getEmail());
+
+                        empregadoRepository.save(empregadoToBeUpdate);
+
+                        return "Empregado atualizado com sucesso.";
+                    } else {
+                        return "Já existe um empregado com o email fornecido.";
+                    }
                 } else {
                     return "Empregado não encontrado no banco.";
                 }
