@@ -11,8 +11,8 @@ public class Producao {
     private int id;
 
     private String nome;
-
     private String funcao;
+    private double salario;
 
     public int getId() {
         return id;
@@ -36,5 +36,13 @@ public class Producao {
 
     public void setFuncao(String funcao) {
         this.funcao = funcao;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
     }
 }

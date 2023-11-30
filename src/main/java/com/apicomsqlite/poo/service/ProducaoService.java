@@ -21,9 +21,9 @@ public class ProducaoService {
             if (!producaoRepository.existsById(producao.getId())) {
                 producao.setId(null == producaoRepository.findMaxId() ? 1 : producaoRepository.findMaxId() + 1);
                 producaoRepository.save(producao);
-                return "producao cadastrado com sucesso.";
+                return "Producao cadastrado com sucesso.";
             } else {
-                return "producao já existe no banco.";
+                return "Producao já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
@@ -43,6 +43,7 @@ public class ProducaoService {
                     Producao producaoToBeUpdate = listaProducao.get();
                     producaoToBeUpdate.setFuncao(producao.getFuncao());
                     producaoToBeUpdate.setNome(producao.getNome());
+                    producaoToBeUpdate.setSalario(producao.getSalario());
                     producaoRepository.save(producaoToBeUpdate);
                     return "Producao atualizado.";
                 } else {
