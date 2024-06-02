@@ -25,7 +25,7 @@ public class FuncionarioService {
                         .setId(null == funcionarioRepository.findMaxId() ? 1 : funcionarioRepository.findMaxId() + 1);
                 funcionarioRepository.save(funcionario);
 
-                return "funcionario cadastrada com sucesso.";
+                return "funcionario cadastrado com sucesso.";
             } else {
                 return "funcionario já existe no banco.";
             }
@@ -49,7 +49,7 @@ public class FuncionarioService {
                 if (funcionarioOptional.isPresent()) {
                     Funcionario funcionarioToBeUpdate = funcionarioOptional.get();
 
-                    if (!funcionarioRepository.existsById(funcionario.getId())) {
+                    if (funcionarioRepository.existsById(funcionario.getId())) {
 
                         funcionarioToBeUpdate.setNome(funcionario.getNome());
                         funcionarioToBeUpdate.setIdEmpresa(funcionario.getIdEmpresa());
@@ -60,7 +60,7 @@ public class FuncionarioService {
 
                         return "Funcionario atualizado com sucesso.";
                     } else {
-                        return "Já existe um funcionario com o email fornecido.";
+                        return "Já existe um funcionario com o cpf fornecido.";
                     }
                 } else {
                     return "Funcionario não encontrado no banco.";
