@@ -15,6 +15,10 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
 
     public Optional<Empresa> findById(int id);
 
+    public boolean existsByNome(String nome);
+
+    public Optional<Empresa> findByNome(String nome);
+
     @Query("select max(s.id) from Empresa s")
     public Integer findMaxId();
 }

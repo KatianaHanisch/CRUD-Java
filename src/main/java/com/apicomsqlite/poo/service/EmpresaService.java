@@ -18,7 +18,7 @@ public class EmpresaService {
     @Transactional
     public String createEmpresa(Empresa empresa) {
         try {
-            if (!empresaRepository.existsById(empresa.getId())) {
+            if (!empresaRepository.existsByNome(empresa.getNome())) {
                 empresa.setId(null == empresaRepository.findMaxId() ? 1 : empresaRepository.findMaxId() + 1);
                 empresaRepository.save(empresa);
 
@@ -46,7 +46,7 @@ public class EmpresaService {
                 if (empresaOptional.isPresent()) {
                     Empresa empresaToBeUpdate = empresaOptional.get();
 
-                    if (!empresaRepository.existsById(empresa.getId())) {
+                    if (empresaRepository.existsById(empresa.getId())) {
 
                         empresaToBeUpdate.setNome(empresa.getNome());
                         empresaToBeUpdate.setCnpj(empresa.getCnpj());
@@ -55,7 +55,7 @@ public class EmpresaService {
 
                         return "empresa atualizado com sucesso.";
                     } else {
-                        return "Já existe um empresa com o email fornecido.";
+                        return "Já existe um empresa com o cnpj fornecido.";
                     }
                 } else {
                     return "empresa não encontrado no banco.";

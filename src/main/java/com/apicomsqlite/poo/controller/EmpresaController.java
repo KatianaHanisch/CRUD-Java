@@ -24,8 +24,8 @@ public class EmpresaController {
         return empresaService.createEmpresa(empresa);
     }
 
-    @RequestMapping(value = "readEmpresas", method = RequestMethod.GET)
-    public List<Empresa> readEmpresas() {
+    @RequestMapping(value = "readEmpresa", method = RequestMethod.GET)
+    public List<Empresa> readEmpresa() {
         return empresaService.readEmpresa();
     }
 
