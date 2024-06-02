@@ -15,16 +15,27 @@ public class VendaService {
     @Autowired(required = false)
     private VendaRepository vendaRepository;
 
+    @Autowired
+    private ProdutoService produtoService;
+
     @Transactional
     public String createVenda(Venda venda) {
         try {
             if (!vendaRepository.existsById(venda.getId())) {
                 venda.setId(null == vendaRepository.findMaxId() ? 1 : vendaRepository.findMaxId() + 1);
+
+                double precoUnitario = produtoService.getPrecoUnitarioPorNome(venda.getProduto());
+
+                System.out.println(precoUnitario);
+                venda.setPrecoUnitario(precoUnitario);
+
+                venda.setValorTotal(venda.getQuantidade() * venda.getPrecoUnitario());
+
                 vendaRepository.save(venda);
 
-                return "Vedido cadastrada com sucesso.";
+                return "Venda cadastrada com sucesso.";
             } else {
-                return "Vedido já existe no banco.";
+                return "Venda já existe no banco.";
             }
         } catch (Exception e) {
             throw e;
@@ -46,13 +57,18 @@ public class VendaService {
                 if (vendaOptional.isPresent()) {
                     Venda vendaToBeUpdate = vendaOptional.get();
 
-                    if (!vendaRepository.existsById(venda.getId())) {
+                    if (vendaRepository.existsById(venda.getId())) {
 
                         vendaToBeUpdate.setIdEmpresa(venda.getIdEmpresa());
                         vendaToBeUpdate.setIdCliente(venda.getIdCliente());
                         vendaToBeUpdate.setProduto(venda.getProduto());
                         vendaToBeUpdate.setQuantidade(venda.getQuantidade());
-                        vendaToBeUpdate.setValorTotal(venda.getValorTotal());
+
+                        double precoUnitario = produtoService.getPrecoUnitarioPorNome(venda.getProduto());
+                        vendaToBeUpdate.setPrecoUnitario(precoUnitario);
+
+                        vendaToBeUpdate.setValorTotal(venda.getQuantidade() * venda.getPrecoUnitario());
+
                         vendaToBeUpdate.setPago(venda.getPago());
 
                         vendaRepository.save(vendaToBeUpdate);
@@ -62,7 +78,7 @@ public class VendaService {
                         return "Já existe um venda com o id fornecido.";
                     }
                 } else {
-                    return "venda não encontrado no banco.";
+                    return "venda não encontrada no banco.";
                 }
             } catch (Exception e) {
                 throw e;

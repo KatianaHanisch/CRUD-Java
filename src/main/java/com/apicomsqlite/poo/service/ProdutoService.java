@@ -18,13 +18,13 @@ public class ProdutoService {
     @Transactional
     public String createProduto(Produto produto) {
         try {
-            if (!produtoRepository.existsById(produto.getId())) {
+            if (!produtoRepository.existsByNome(produto.getNome())) {
                 produto.setId(null == produtoRepository.findMaxId() ? 1 : produtoRepository.findMaxId() + 1);
                 produtoRepository.save(produto);
 
                 return "produto cadastrado com sucesso.";
             } else {
-                return "produto já existe no banco.";
+                return "Já existe um produto com o nome fornecido no banco.";
             }
         } catch (Exception e) {
             throw e;
@@ -80,6 +80,15 @@ public class ProdutoService {
             }
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    public double getPrecoUnitarioPorNome(String nomeProduto) {
+        Optional<Produto> produtoOptional = produtoRepository.findByNome(nomeProduto);
+        if (produtoOptional.isPresent()) {
+            return produtoOptional.get().getValor();
+        } else {
+            throw new RuntimeException("Produto não encontrado.");
         }
     }
 }

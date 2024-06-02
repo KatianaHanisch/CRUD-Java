@@ -12,6 +12,7 @@ public class Venda {
     private int idCliente;
     private String produto;
     private int quantidade;
+    private double precoUnitario;
     private double valorTotal;
     private boolean pago;
 
@@ -53,6 +54,14 @@ public class Venda {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public double getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(double precoUnitario) {
+        this.precoUnitario = precoUnitario;
     }
 
     public double getValorTotal() {
