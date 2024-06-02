@@ -46,7 +46,7 @@ public class ProdutoService {
                 if (produtoOptional.isPresent()) {
                     Produto produtoToBeUpdate = produtoOptional.get();
 
-                    if (!produtoRepository.existsById(produto.getId())) {
+                    if (produtoRepository.existsById(produto.getId())) {
 
                         produtoToBeUpdate.setIdEmpresa(produto.getIdEmpresa());
                         produtoToBeUpdate.setNome(produto.getNome());

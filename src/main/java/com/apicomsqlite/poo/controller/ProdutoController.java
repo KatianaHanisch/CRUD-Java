@@ -3,6 +3,8 @@ package com.apicomsqlite.poo.controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.apicomsqlite.poo.enity.Funcionario;
 import com.apicomsqlite.poo.enity.Produto;
 import com.apicomsqlite.poo.service.ProdutoService;
 
@@ -29,8 +31,9 @@ public class ProdutoController {
         return produtoService.readProduto();
     }
 
-    @RequestMapping(value = "updateProduto", method = RequestMethod.PUT)
-    public String updateProduto(@RequestBody Produto produto) {
+    @RequestMapping(value = "updateProduto/{id}", method = RequestMethod.PUT)
+    public String updateProduto(@PathVariable int id, @RequestBody Produto produto) {
+        produto.setId(id);
         return produtoService.updateProduto(produto);
     }
 
