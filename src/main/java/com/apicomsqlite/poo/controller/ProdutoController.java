@@ -4,12 +4,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.apicomsqlite.poo.enity.Funcionario;
 import com.apicomsqlite.poo.enity.Produto;
 import com.apicomsqlite.poo.service.ProdutoService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
 
 public class ProdutoController {
 

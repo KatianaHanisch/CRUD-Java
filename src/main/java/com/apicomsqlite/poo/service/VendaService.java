@@ -21,12 +21,16 @@ public class VendaService {
     @Transactional
     public String createVenda(Venda venda) {
         try {
+
+            if (!produtoService.existsByNome(venda.getProduto())) {
+                return "Produto não existe no banco.";
+            }
+
             if (!vendaRepository.existsById(venda.getId())) {
                 venda.setId(null == vendaRepository.findMaxId() ? 1 : vendaRepository.findMaxId() + 1);
 
                 double precoUnitario = produtoService.getPrecoUnitarioPorNome(venda.getProduto());
 
-                System.out.println(precoUnitario);
                 venda.setPrecoUnitario(precoUnitario);
 
                 venda.setValorTotal(venda.getQuantidade() * venda.getPrecoUnitario());
@@ -48,43 +52,39 @@ public class VendaService {
 
     @Transactional
     public String updateVenda(Venda venda) {
-
         if (vendaRepository.existsById(venda.getId())) {
             try {
-
                 Optional<Venda> vendaOptional = vendaRepository.findById(venda.getId());
 
                 if (vendaOptional.isPresent()) {
                     Venda vendaToBeUpdate = vendaOptional.get();
 
-                    if (vendaRepository.existsById(venda.getId())) {
-
-                        vendaToBeUpdate.setIdEmpresa(venda.getIdEmpresa());
-                        vendaToBeUpdate.setIdCliente(venda.getIdCliente());
-                        vendaToBeUpdate.setProduto(venda.getProduto());
-                        vendaToBeUpdate.setQuantidade(venda.getQuantidade());
-
-                        double precoUnitario = produtoService.getPrecoUnitarioPorNome(venda.getProduto());
-                        vendaToBeUpdate.setPrecoUnitario(precoUnitario);
-
-                        vendaToBeUpdate.setValorTotal(venda.getQuantidade() * venda.getPrecoUnitario());
-
-                        vendaToBeUpdate.setPago(venda.getPago());
-
-                        vendaRepository.save(vendaToBeUpdate);
-
-                        return "venda atualizado com sucesso.";
-                    } else {
-                        return "Já existe um venda com o id fornecido.";
+                    if (!produtoService.existsByNome(venda.getProduto())) {
+                        return "Produto não existe no banco.";
                     }
+
+                    vendaToBeUpdate.setIdEmpresa(venda.getIdEmpresa());
+                    vendaToBeUpdate.setIdCliente(venda.getIdCliente());
+                    vendaToBeUpdate.setProduto(venda.getProduto());
+                    vendaToBeUpdate.setQuantidade(venda.getQuantidade());
+
+                    double precoUnitario = produtoService.getPrecoUnitarioPorNome(venda.getProduto());
+                    vendaToBeUpdate.setPrecoUnitario(precoUnitario);
+                    vendaToBeUpdate.setValorTotal(venda.getQuantidade() * precoUnitario);
+
+                    vendaToBeUpdate.setPago(venda.getPago());
+
+                    vendaRepository.save(vendaToBeUpdate);
+
+                    return "Venda atualizada com sucesso.";
                 } else {
-                    return "venda não encontrada no banco.";
+                    return "Venda não encontrada no banco.";
                 }
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "venda não existe no banco.";
+            return "Venda não existe no banco.";
         }
     }
 

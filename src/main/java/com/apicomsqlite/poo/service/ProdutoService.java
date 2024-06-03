@@ -83,6 +83,10 @@ public class ProdutoService {
         }
     }
 
+    public boolean existsByNome(String nome) {
+        return produtoRepository.existsByNome(nome);
+    }
+
     public double getPrecoUnitarioPorNome(String nomeProduto) {
         Optional<Produto> produtoOptional = produtoRepository.findByNome(nomeProduto);
         if (produtoOptional.isPresent()) {
